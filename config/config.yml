@@ -1,0 +1,54 @@
+development:
+  app_host: APP_HOST_HERE # e.g. osb.mydomain.com
+  app_protocol: http
+  activemerchant_billing_mode: test
+  demo_mode: false
+  wkhtmltopdf_path: /home/parallels/.rvm/gems/ruby-2.3.7/bin/wkhtmltopdf
+  encryption_key: 3395b3f4d5bcc581390a31653999f5ba84943c11418e719269d184b0d5600a46ad51eef17a12f19a4b7a2cb642f1af55d6df2d4b1db1f8f86bc201c84f77477c
+
+  paypal:
+    url: https://www.sandbox.paypal.com/cgi-bin/webscr?
+    login: YOUR_PAYPAL_LOGIN
+    password: YOUR_PAYPAL_PASSWORD
+    signature: YOUR_PAYPAL_SIGNATURE
+    business: YOUR_PAYPAL_BUSINESS
+
+  smtp_setting:
+    address: smtp.gmail.com
+    port: 587
+    authentication: :plain
+    enable_starttls_auto: true
+    user_name: YOUR_EMAIL_HERE
+    password: YOUR_PASSWORD_HERE
+
+  quickbooks:
+    # QuickBooksApp account key and secret
+    consumer_key: YOUR_QUICKBOOKS_APP_CLIENT_ID
+    consumer_secret: YOUR_QUICKBOOKS_APP_CLIENT_SECRET
+
+production:
+  app_host: APP_HOST_HERE # e.g. osb.mydomain.com
+  app_protocol: http
+  activemerchant_billing_mode: test
+  wkhtmltopdf_path: /home/parallels/.rvm/gems/ruby-2.3.7/bin/wkhtmltopdf
+  encryption_key: 3395b3f4d5bcc581390a31653999f5ba84943c11418e719269d184b0d5600a46ad51eef17a12f19a4b7a2cb642f1af55d6df2d4b1db1f8f86bc201c84f77477c
+
+  paypal:
+    url: https://www.sandbox.paypal.com/cgi-bin/webscr?
+    login: YOUR_PAYPAL_LOGIN
+    password: YOUR_PAYPAL_PASSWORD
+    signature: YOUR_PAYPAL_SIGNATURE
+    business: YOUR_PAYPAL_BUSINESS
+
+  smtp_setting:
+    address: smtp.gmail.com
+    port: 587
+    authentication: :plain
+    enable_starttls_auto: true
+    user_name: YOUR_EMAIL_HERE
+    password: YOUR_PASSWORD_HERE
+
+  quickbooks:
+    # QuickBooksApp account key and secret
+    consume_key: YOUR_QUICKBOOKS_APP_CLIENT_ID
+    consumer_secret: YOUR_QUICKBOOKS_APP_CLIENT_SECRET

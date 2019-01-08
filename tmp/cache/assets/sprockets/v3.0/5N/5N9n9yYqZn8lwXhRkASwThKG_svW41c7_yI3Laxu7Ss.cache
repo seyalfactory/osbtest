@@ -1,0 +1,43 @@
+I""(function() {
+  jQuery(function() {
+    var applyQtip, hideQtip;
+    jQuery("form#new_account, form.edit_account").submit(function() {
+      var flag;
+      flag = true;
+      return flag = jQuery.trim(jQuery("#account_org_name").val()) === "" ? (applyQtip(jQuery("#account_org_name"), "Enter company name"), false) : jQuery.trim(jQuery("#account_admin_first_name").val()) === "" ? (applyQtip(jQuery("#account_admin_first_name"), "Enter first name"), false) : jQuery.trim(jQuery("#account_admin_last_name").val()) === "" ? (applyQtip(jQuery("#account_admin_last_name"), "Enter last name"), false) : void 0;
+    });
+    jQuery("input[type=text]", ".companies_wrapper").keypress(function() {
+      return hideQtip(jQuery(this));
+    });
+    applyQtip = function(elem, message) {
+      elem.qtip({
+        content: {
+          text: message
+        },
+        show: {
+          event: false
+        },
+        hide: {
+          event: false
+        },
+        position: {
+          at: "topRight"
+        },
+        style: {
+          tip: {
+            corner: "leftMiddle"
+          }
+        }
+      });
+      elem.qtip().show();
+      return elem.focus();
+    };
+    return hideQtip = (function(_this) {
+      return function(elem) {
+        return elem.qtip("hide");
+      };
+    })(this);
+  });
+
+}).call(this);
+:ET

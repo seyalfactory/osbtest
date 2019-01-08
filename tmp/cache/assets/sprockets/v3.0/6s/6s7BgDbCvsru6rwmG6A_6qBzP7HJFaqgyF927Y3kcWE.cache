@@ -1,0 +1,71 @@
+I"](function() {
+  window.taxByCategory = function() {
+    var a, amount, i, len, lis_lab, lis_tax, t, tax, tax_key, tax_val, taxes, tlist;
+    taxes = [];
+    jQuery("table.invoice_grid_fields tr:visible, table.estimate_grid_fields tr:visible").each(function() {
+      var discountAmount, discountPct, discountType, discountedLineTotal, lineTotal, tax1Amount, tax1Input, tax1Name, tax1Pct, tax1Select, tax2Amount, tax2Name, tax2Pct, tax2Select;
+      discountPct = parseFloat($("#invoice_discount_percentage, #recurring_profile_discount_percentage, #estimate_discount_percentage").val());
+      discountType = $("select#discount_type").val();
+      lineTotal = (parseFloat($(this).find(".cost").val())) * (parseFloat($(this).find(".qty").val()));
+      if (isNaN(lineTotal)) {
+        lineTotal = 0;
+      }
+      discountAmount = discountType === "%" ? lineTotal * discountPct / 100.0 : discountPct;
+      if (isNaN(discountAmount)) {
+        discountAmount = 0;
+      }
+      discountedLineTotal = lineTotal - discountAmount;
+      tax1Select = $(this).find("select.tax1 option:selected");
+      tax2Select = $(this).find("select.tax2 option:selected");
+      tax1Input = $(this).find("#tax_amount");
+      if (lineTotal === 0) {
+        discountedLineTotal = 0;
+      }
+      tax1Name = tax1Select.text();
+      tax1Pct = parseFloat(tax1Select.attr("data-tax_1"));
+      tax1Amount = discountedLineTotal * tax1Pct / 100.0;
+      tax2Name = tax2Select.text();
+      tax2Pct = parseFloat(tax2Select.attr("data-tax_2"));
+      tax2Amount = discountedLineTotal * tax2Pct / 100.0;
+      if ($(this).find("select.tax1 option:selected").text() !== "") {
+        taxes.push({
+          name: tax1Name,
+          pct: tax1Pct,
+          amount: tax1Amount
+        });
+      }
+      if ($(this).find("select.tax1 option:selected").text() !== "") {
+        return taxes.push({
+          name: tax2Name,
+          pct: tax2Pct,
+          amount: tax2Amount
+        });
+      }
+    });
+    tlist = {};
+    for (i = 0, len = taxes.length; i < len; i++) {
+      t = taxes[i];
+      tax_key = t['name'] + " " + t['pct'] + "%";
+      if (!isNaN(t["amount"])) {
+        tlist[tax_key] = (tlist[tax_key] || 0) + t["amount"];
+      }
+      if (!isNaN(t["amount"])) {
+        a = (a || 0) + t["amount"];
+      }
+    }
+    lis_lab = "";
+    lis_tax = "";
+    for (tax in tlist) {
+      amount = tlist[tax];
+      lis_lab += $("<span><li><span>" + tax + "</span></li></span>").html();
+      tax_val = $("<span>" + amount + "</span>").formatCurrency({
+        symbol: window.currency_symbol
+      }).html();
+      lis_tax += $("<span><li><span>" + tax_val + "</span></li></span>").html();
+    }
+    jQuery(".invoice-total-left .new-invoice-footer-row.taxes_total").html("<ul>" + lis_lab + "</ul>");
+    return jQuery(".invoice-total-right .new-invoice-footer-row.taxes_total").html("<ul>" + lis_tax + "</ul>");
+  };
+
+}).call(this);
+:ET

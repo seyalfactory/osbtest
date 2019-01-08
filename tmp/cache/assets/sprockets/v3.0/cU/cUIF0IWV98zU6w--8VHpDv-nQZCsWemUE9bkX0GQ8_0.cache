@@ -1,0 +1,52 @@
+I"›(function() {
+  this.Tax = (function() {
+    var applyPopover, hidePopover;
+
+    function Tax() {}
+
+    applyPopover = function(elem, message) {
+      elem.qtip({
+        content: {
+          text: message
+        },
+        show: {
+          event: false
+        },
+        hide: {
+          event: false
+        },
+        position: {
+          at: "topRight"
+        },
+        style: {
+          tip: {
+            corner: "leftMiddle"
+          }
+        }
+      });
+      elem.qtip().show();
+      return elem.focus();
+    };
+
+    hidePopover = function(elem) {
+      return elem.qtip("hide");
+    };
+
+    Tax.load_functions = function() {
+      jQuery("#tax_name,tax_percentage").keypress(function() {
+        return hidePopover(jQuery(this));
+      });
+      return jQuery("form#new_tax, form.edit_tax,form#create_tax").submit(function() {
+        var flag;
+        flag = true;
+        flag = jQuery.trim(jQuery("#tax_name").val()) === "" ? (applyPopover(jQuery("#tax_name"), I18n.t('views.taxes.enter_name')), false) : jQuery.trim(jQuery("#tax_percentage").val()) === "" ? (applyPopover(jQuery("#tax_percentage"), I18n.t('views.taxes.enter_percentage')), false) : isNaN(jQuery("#tax_percentage").val()) ? (applyPopover(jQuery("#tax_percentage"), I18n.t('views.taxes.percentage_must_be_numeric')), false) : parseFloat(jQuery("#tax_percentage").val()) <= 0 ? (applyPopover(jQuery("#tax_percentage"), I18n.t('views.taxes.greater_than_zero')), false) : parseFloat(jQuery("#tax_percentage").val()) > 100 ? (applyPopover(jQuery("#tax_percentage"), I18n.t('views.taxes.less_than_hundred')), false) : void 0;
+        return flag;
+      });
+    };
+
+    return Tax;
+
+  })();
+
+}).call(this);
+:ET

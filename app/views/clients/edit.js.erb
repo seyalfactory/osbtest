@@ -1,0 +1,26 @@
+$('body').append("<%= escape_javascript render partial: 'client_form_popup', locals: {client: @client}  %>");
+$('#client_form_popup  input').each(function(){
+    if($(this).val() != ""){
+        $(this).parent().find('label').addClass('active');
+    }
+});
+Client.load_functions();
+elem = $("#client_form_popup");
+Popup.initialize(elem);
+Popup.open(elem);
+
+$('#client_country').material_select();
+$('#client_currency_id').material_select();
+$('#client_industry').material_select();
+$('#client_company_size').material_select();
+
+jQuery(function() {
+    jQuery("#detail").click(function() {
+        jQuery("#add_Detail").toggle(500, function() {
+            var action, action_text;
+            action = $(this).find("#action");
+            action_text = jQuery(action).html() === "expand" ? "collaps" : "expand";
+            $(this).find("#id").html(action_text);
+        });
+    });
+});

@@ -1,0 +1,26 @@
+I"³(function() {
+  jQuery(function() {
+    return jQuery(".email_template_class select#email_template_template_type").on("change", function() {
+      var elem;
+      elem = jQuery(this);
+      return jQuery.ajax('/email_templates/load_email_template', {
+        type: 'POST',
+        data: "id=" + jQuery(this).find('option:selected').attr('value_id'),
+        dataType: 'html',
+        error: function(jqXHR, textStatus, errorThrown) {
+          return alert("Error: " + textStatus);
+        },
+        success: function(data, textStatus, jqXHR) {
+          var container, template;
+          template = JSON.parse(data);
+          container = elem.parents(".email_template_class");
+          container.find("input#email_template_email_from").val(template[0]);
+          container.find("input#email_template_subject").val(template[1]);
+          return tinyMCE.activeEditor.setContent(template[2]);
+        }
+      });
+    });
+  });
+
+}).call(this);
+:ET

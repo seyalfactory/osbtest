@@ -1,0 +1,13 @@
+I"0(function() {
+  $(document).ready(function() {
+    return $('.invoice-card').on('click', function(e) {
+      var target;
+      target = $(e.target);
+      if (!target.is("a") && !target.is("i")) {
+        return $(this).parent().find('a.invoice_show_link').click();
+      }
+    });
+  });
+
+}).call(this);
+:ET

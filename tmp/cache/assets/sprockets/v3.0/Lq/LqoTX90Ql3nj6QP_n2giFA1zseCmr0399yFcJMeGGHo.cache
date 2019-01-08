@@ -1,0 +1,28 @@
+I"K(function() {
+  this.Popup = (function() {
+    function Popup() {}
+
+    Popup.initialize = function(elem) {
+      $(elem).modal({
+        complete: function() {
+          $('.qtip').remove();
+          return $(elem).remove();
+        }
+      });
+      return $('.modal-close').on('click', function() {
+        return $(this).parents('.modal').modal('close');
+      });
+    };
+
+    Popup.open = function(elem) {
+      $(elem).modal('open');
+      $(elem).css('z-index', '1004');
+      return $('.modal-overlay').css('z-index', '1003');
+    };
+
+    return Popup;
+
+  })();
+
+}).call(this);
+:ET

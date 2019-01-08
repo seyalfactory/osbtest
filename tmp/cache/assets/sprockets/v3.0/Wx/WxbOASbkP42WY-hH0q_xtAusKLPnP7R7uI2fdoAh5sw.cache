@@ -1,0 +1,50 @@
+I"°(function() {
+  this.FilterBar = (function() {
+    function FilterBar() {}
+
+    FilterBar.initSearch = function(filters) {
+      var f, fp, i, len, results;
+      this.search_params = {};
+      results = [];
+      for (i = 0, len = filters.length; i < len; i++) {
+        f = filters[i];
+        fp = f.split(":");
+        results.push(this.search_params[fp[0]] = fp[1]);
+      }
+      return results;
+    };
+
+    FilterBar.setSearch = function(filters) {
+      var f, fp, i, len;
+      this.search_params = {};
+      for (i = 0, len = filters.length; i < len; i++) {
+        f = filters[i];
+        fp = f.split(":");
+        this.search_params[fp[0]] = fp[1];
+      }
+      return this.updatePage();
+    };
+
+    FilterBar.updatePage = function() {
+      var params;
+      params = {
+        search: this.search_params
+      };
+      return $.rails.ajax({
+        url: window.location.href,
+        dataType: 'script',
+        data: params,
+        success: function(data) {
+          return $('.ajax-reload').each(function() {
+            return $(this).html($(data).find("#" + ($(this).attr('id'))).html());
+          });
+        }
+      });
+    };
+
+    return FilterBar;
+
+  })();
+
+}).call(this);
+:ET

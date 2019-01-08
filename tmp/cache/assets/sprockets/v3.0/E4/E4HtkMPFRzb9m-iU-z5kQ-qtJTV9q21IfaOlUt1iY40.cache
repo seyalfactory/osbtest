@@ -1,0 +1,87 @@
+I""
+(function() {
+  Array.prototype.getObjectBy = function(name, value) {
+    var i, len, object, ref;
+    ref = this;
+    for (i = 0, len = ref.length; i < len; i++) {
+      object = ref[i];
+      if (object[name] === value) {
+        return object;
+      }
+    }
+    return null;
+  };
+
+  this.FilterBox = (function() {
+    function FilterBox(element1) {
+      this.element = element1;
+      this.filter_fields = $(this.element).data('filter-fields');
+      this.setupSelect2();
+      FilterBar.initSearch($(this.element).select2('val'));
+    }
+
+    FilterBox.prototype.setupSelect2 = function() {
+      return $(this.element).select2({
+        placeholder: "Search",
+        minimumInputLength: 2,
+        containerCssClass: 'hd-filter-box-container',
+        multiple: true,
+        formatResult: FilterBox.filterBoxOptionsFormat,
+        formatSelection: FilterBox.filterBoxTagFormat,
+        query: (function(_this) {
+          return function(query) {
+            var data, filter, i, len, ref;
+            data = {
+              results: []
+            };
+            ref = _this.filter_fields;
+            for (i = 0, len = ref.length; i < len; i++) {
+              filter = ref[i];
+              data.results.push({
+                id: filter.key + ":" + query.term,
+                key: filter.key,
+                label: filter.label,
+                term: query.term
+              });
+            }
+            return query.callback(data);
+          };
+        })(this),
+        initSelection: (function(_this) {
+          return function(element, callback) {
+            var data, k, ref, v;
+            data = [];
+            ref = $(_this.element).data('filter-pre-populate');
+            for (k in ref) {
+              v = ref[k];
+              if (_this.filter_fields.getObjectBy('key', k)) {
+                data.push({
+                  id: k + ":" + v,
+                  key: k,
+                  label: _this.filter_fields.getObjectBy('key', k).label,
+                  term: v
+                });
+              }
+            }
+            return callback(data);
+          };
+        })(this)
+      }).on('change', function(event) {
+        return FilterBar.setSearch(event.val);
+      }).select2('val', 'initValue');
+    };
+
+    FilterBox.filterBoxOptionsFormat = function(object, container, query) {
+      return object.label + ": <strong>" + object.term + "</strong>";
+    };
+
+    FilterBox.filterBoxTagFormat = function(selection) {
+      return "<span class='label'>" + selection.label + "</span> " + selection.term;
+    };
+
+    return FilterBox;
+
+  })();
+
+}).call(this);
+:ET

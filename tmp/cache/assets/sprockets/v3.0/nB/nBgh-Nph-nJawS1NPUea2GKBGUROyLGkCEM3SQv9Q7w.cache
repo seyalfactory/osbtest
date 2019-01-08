@@ -1,0 +1,49 @@
+I"t(function() {
+  var initDateRangePicker, initOnlyToDatePicker;
+
+  jQuery(function() {
+    if ($('#from_date').length > 0 && $('#to_date').length > 0) {
+      return initDateRangePicker(DateFormats.format().toUpperCase());
+    } else {
+      if ($('#to_date').length > 0) {
+        return initOnlyToDatePicker(DateFormats.format().toUpperCase());
+      }
+    }
+  });
+
+  initDateRangePicker = function(format) {
+    var options;
+    options = {
+      autoUpdateInput: false,
+      locale: {
+        format: format
+      }
+    };
+    $('#date_range_picker').daterangepicker(options, function(start, end) {
+      $('#from_date').val(start.format(format));
+      return $('#to_date').val(end.format(format));
+    });
+    $('#date_range_picker').on('apply.daterangepicker', function(ev, picker) {
+      return $(this).val(picker.startDate.format(format) + ' - ' + picker.endDate.format(format));
+    });
+    return $('#date_range_picker').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+      picker.element.val('');
+      $('#from_date').val('');
+      return $('#to_date').val('');
+    });
+  };
+
+  initOnlyToDatePicker = function(format) {
+    return $('#to_date').daterangepicker({
+      singleDatePicker: true,
+      locale: {
+        format: format
+      }
+    }, function(start, end, label) {
+      $('#to_date').val(start.format(format));
+    });
+  };
+
+}).call(this);
+:ET

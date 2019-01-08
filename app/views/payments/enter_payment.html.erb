@@ -1,0 +1,13 @@
+<%= render 'payment_activity'%>
+<!--content_top-->
+<%= form_tag "update_individual_payment", :method => :put, :novalidate => "", :id => "payments_form" do %>
+      <%= render "enter_payment" %>
+
+      <% if params[:from_invoices] %>
+          <%= hidden_field_tag :from_invoices %>
+      <% end %>
+<% end %>
+
+
+<!--content_bottom-->
+

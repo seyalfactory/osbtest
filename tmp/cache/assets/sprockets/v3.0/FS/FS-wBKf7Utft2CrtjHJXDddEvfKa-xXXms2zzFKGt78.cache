@@ -1,0 +1,24 @@
+I"((function() {
+  this.Search = (function() {
+    function Search() {}
+
+    Search.LoadListingFunctions = function() {
+      $('.invoice-card').on('click', function(e) {
+        var target;
+        target = $(e.target);
+        if (!target.is("a") && !target.is("i")) {
+          return $(this).parent().find('a.invoice_show_link').click();
+        }
+      });
+      initBulkActionCheckboxes();
+      return $('.checkbox-item').on('click', function(e) {
+        e.stopImmediatePropagation();
+      });
+    };
+
+    return Search;
+
+  })();
+
+}).call(this);
+:ET

@@ -1,0 +1,74 @@
+I"ß(function() {
+  this.Import = (function() {
+    var applyPopover, hidePopover;
+
+    function Import() {}
+
+    applyPopover = function(elem, position, corner, message) {
+      console.log(message);
+      elem.qtip({
+        content: {
+          text: message
+        },
+        show: {
+          event: false
+        },
+        hide: {
+          event: false
+        },
+        position: {
+          at: position
+        },
+        style: {
+          tip: {
+            corner: corner
+          }
+        }
+      });
+      elem.qtip().show();
+      return elem.focus();
+    };
+
+    hidePopover = function(elem) {
+      return elem.qtip("hide");
+    };
+
+    Import.load_functions = function() {
+      $('.modal').modal({
+        complete: function() {
+          return $('.qtip').remove();
+        }
+      });
+      $(".import_freshbook_form").submit(function() {
+        var account_url, api_token, flag;
+        account_url = $('#freshbooks_account_url').val();
+        api_token = $('#freshbooks_api_token').val();
+        flag = true;
+        if (account_url === "") {
+          applyPopover($('#freshbooks_account_url'), "bottomMiddle", "topLeft", "Provide account url");
+          flag = false;
+        } else if (api_token === "") {
+          hidePopover($('#freshbooks_account_url'));
+          applyPopover($('#freshbooks_api_token'), "bottomMiddle", "topLeft", "Provide api token");
+          flag = false;
+        } else if ($(".data-import-module input[type=checkbox]:checked").length < 1) {
+          hidePopover($('#freshbooks_api_token'));
+          applyPopover($('.data-import-module'), "bottomMiddle", "topLeft", "Atleast select one module to import");
+          flag = false;
+        } else {
+          hidePopover($('.data-import-module'));
+          flag = true;
+        }
+        return flag;
+      });
+      return $("#freshbooks_account_url, #freshbooks_api_token").on('keypress', function() {
+        return hidePopover($(this));
+      });
+    };
+
+    return Import;
+
+  })();
+
+}).call(this);
+:ET

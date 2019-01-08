@@ -1,0 +1,75 @@
+I"N(function() {
+  window.tableListing = function() {
+    jQuery('#select_all').on("click", function() {
+      var listing_table, selected;
+      listing_table = jQuery(this).parents('table.table_listing');
+      selected = this.checked ? "selected" : "";
+      return listing_table.find(':checkbox').prop('checked', this.checked).parents('tr').removeClass('selected').addClass(selected);
+    });
+    jQuery(".alert button.close").click(function() {
+      return jQuery(this).parent(".alert").hide();
+    });
+    jQuery('#main-invoice-checkbox').on("click", function() {
+      return jQuery(this).parents('table.table-striped').find(':checkbox').attr('checked', this.checked);
+    });
+    jQuery('table.table_listing tbody :checkbox').on("click", function() {
+      var status;
+      if (jQuery(this).is(":checked")) {
+        jQuery(this).parents('tr').addClass('selected');
+      } else {
+        jQuery(this).parents('tr').removeClass('selected');
+      }
+      status = !jQuery('table.table_listing tbody input[type=checkbox]:not(:checked)').length ? true : false;
+      return jQuery('#select_all').attr('checked', status);
+    });
+    jQuery(".no_links").attr("title", "This feature is not implemented yet.").qtip({
+      position: {
+        at: "bottomCenter"
+      }
+    });
+    jQuery(".sent, .draft, .partial, .draft-partial, .paid, .disputed, .viewed, .remove_item, .sort_icon, .text-overflow-class").qtip({
+      position: {
+        at: "bottomCenter"
+      }
+    });
+    jQuery(".text-overflow-class").each(function() {
+      var rows;
+      rows = jQuery(this).attr('data-overflow-rows') || 2;
+      return jQuery(this).ellipsis({
+        row: rows
+      });
+    });
+    jQuery("table.table_listing tbody td:empty").html("&nbsp;");
+    jQuery('.table_listing a.sortable').parent('th').click(function(e) {
+      var direction, header, headers;
+      header = jQuery(this);
+      headers = header.parents('thead').find('th');
+      direction = jQuery('#sort_direction').html();
+      headers.removeClass('sortup sortdown');
+      if (direction === 'desc') {
+        return header.addClass('sortup');
+      } else {
+        return header.addClass('sortdown');
+      }
+    });
+    jQuery('.association').click(function() {
+      var checkbox, parent, type;
+      type = jQuery(this).attr('value');
+      parent = jQuery(this).parents('.options_content');
+      checkbox = parent.find('input[type=checkbox]');
+      if (type === 'account') {
+        return checkbox.prop('checked', false);
+      }
+    });
+    jQuery('#pdffile').change(function() {
+      return jQuery('#subfile').val(jQuery(this).val());
+    });
+    return jQuery('.options_content :checkbox').on("click", function() {
+      var status;
+      status = jQuery('.options_content input[type=checkbox]:not(:checked)').length;
+      return jQuery('#company_association').attr('checked', status);
+    });
+  };
+
+}).call(this);
+:ET

@@ -1,0 +1,43 @@
+I"›(function() {
+  window.validateCreditCard = function() {
+    var validateForm;
+    jQuery("form#cc_form").submit(function() {
+      if (validateForm(jQuery(this))) {
+        jQuery(this).find("input[type=submit]").attr("disabled", "disabled");
+      }
+      return validateForm(jQuery(this));
+    });
+    validateForm = function(elem) {
+      var valid_form;
+      valid_form = true;
+      elem.find("input[required]").each((function(_this) {
+        return function(e, field) {
+          if (!jQuery(field).val()) {
+            jQuery(field).qtip({
+              content: {
+                text: "This field is required",
+                show: {
+                  event: false,
+                  hide: {
+                    event: false
+                  }
+                }
+              }
+            });
+            jQuery(field).qtip().show();
+            jQuery(field).focus();
+            return valid_form = false;
+          }
+        };
+      })(this));
+      return valid_form;
+    };
+    return jQuery("form#cc_form input[required]").keyup(function() {
+      if (jQuery(this).qtip()) {
+        return jQuery(this).qtip("destroy");
+      }
+    });
+  };
+
+}).call(this);
+:ET
